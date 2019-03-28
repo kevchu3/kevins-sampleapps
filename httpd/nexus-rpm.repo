@@ -1,0 +1,20 @@
+[ups-rhel-7-nexus]
+baseurl = http://njrarltcda00404.linux.us.ams1907.com:8081/nexus/content/repositories/yum-hosted-redhat/
+proxy =_none_
+name = UPS RHEL7 Nexus Server Repo via Nexus
+enabled = 1
+gpgcheck = 0
+
+[rhel-7-server-optional-rpms]
+baseurl = http://njrarltcda00404.linux.us.ams1907.com:8081/nexus/content/repositories/rhel-7-server-optional-rpms/
+proxy =_none_
+name = UPS RHEL7 Nexus Server Optional Repo via Nexus
+enabled = 1
+gpgcheck = 0
+
+[rhel-7-server-extras-rpms]
+baseurl = http://njrarltcda00404.linux.us.ams1907.com:8081/nexus/content/repositories/rhel-7-server-extras-rpms/
+proxy =_none_
+name = UPS RHEL7 Nexus Server Extras Repo via Nexus
+enabled = 1
+gpgcheck = 0

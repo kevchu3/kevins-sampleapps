@@ -1,0 +1,27 @@
+apiVersion: batch/v2alpha1
+kind: CronJob
+metadata:
+  name: pi
+spec:
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 1
+  schedule: "*/30 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            parent: "cronjobpi"
+        spec:
+          containers:
+          - name: pi
+            image: registry.redhat.io/rhscl/perl-526-rhel7
+            command: ["perl", "-Mbignum=bpi", "-wle", "print bpi(10000)"]
+            resources:
+              limits:
+                cpu: 50m
+                memory: 200Mi
+              requests:
+                cpu: 50m
+                memory: 200Mi
+          restartPolicy: OnFailure

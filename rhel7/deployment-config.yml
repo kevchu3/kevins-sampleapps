@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: DeploymentConfig
+metadata:
+  labels:
+    app: sample-rhel7
+  name: sample-rhel7
+spec:
+  replicas: 2
+  strategy:
+    type: Rolling
+  template:
+    metadata:
+      labels:
+        app: sample-rhel7
+      name: sample-rhel7
+    spec:
+      containers:
+        - name: sample-httpd
+          image: "sample-sandbox/sample-rhel7"
+          ports:
+            - containerPort: 8080
+              protocol: "TCP"
+          resources:
+            requests:
+              cpu: 50m
+              memory: 200Mi
+            limits:
+              cpu: 200m
+              memory: 200Mi
+  test: false
+  triggers:
+    - type: ImageChange
+      imageChangeParams:
+        automatic: true
+        containerNames:
+          - sample-rhel7
+        from:
+          kind: ImageStreamTag
+          name: sample-rhel7:latest

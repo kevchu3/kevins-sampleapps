@@ -1,0 +1,26 @@
+apiVersion: batch/v2alpha1
+kind: ScheduledJob
+metadata:
+  label: largejob
+  name: largejob
+spec:
+  schedule: "*/1 * * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 5
+  failedJobsHistoryLimit: 5
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: pi
+            image: registry.redhat.io/rhscl/perl-526-rhel7
+            command: ["perl", "-Mbignum=bpi", "-wle", "print bpi(10000)"]
+            resources:
+              limits:
+                cpu: 500m
+                memory: 5Gi
+              requests:
+                cpu: 100m
+                memory: 5Gi
+          restartPolicy: Never
