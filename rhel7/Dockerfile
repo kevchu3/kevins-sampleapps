@@ -1,4 +1,4 @@
-FROM registry.redhat.io/rhel7:latest
+FROM rhel7:latest
 
 # Start the service
 CMD ["-D", "FOREGROUND"]
