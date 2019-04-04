@@ -1,5 +1,4 @@
 FROM rhel7:latest
 
-# Start the service
-CMD ["-D", "FOREGROUND"]
-ENTRYPOINT ["/bin/bash"]
+# Start a service that will run indefinitely
+CMD ["/usr/bin/sleep", "infinity"]
