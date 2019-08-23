@@ -24,8 +24,18 @@ spec:
             requests:
               cpu: 100m
               memory: 200Mi
+            limits:
+              cpu: 500m
+              memory: 2Gi
+          volumeMounts:
+            - mountPath: /nexus-data
+              name: nexus
       securityContext:
         runAsUser: 200
+      volumes:
+        - name: nexus
+          persistentVolumeClaim:
+            claimName: nexus-data
   test: false
   triggers:
     - type: ImageChange
