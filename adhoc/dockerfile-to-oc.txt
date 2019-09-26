@@ -1,0 +1,11 @@
+# Convert Dockerfile to be OpenShift-friendly
+# By default, the average Dockerfile and its resulting image runs as root which OpenShift rejects.
+
+# Option 1
+RUN echo 'generic:x:12345:12345:Generic Nonprivileged User:/:/bin/bash' >> /etc/passwd
+USER generic
+
+# Option 2
+RUN chgrp -R 0 /some/directory && \ chmod -R g=u /some/directory
+RUN chmod g=u /etc/passwd ENTRYPOINT [ "uid_entrypoint" ] 
+USER 1001
