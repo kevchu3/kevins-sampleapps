@@ -27,11 +27,10 @@ Since we cannot include the repository name in the Docker client request, we use
 
 Follow the steps to [configure httpd as a reverse proxy].
 
-```
-yum install httpd mod_ssl mod_headers -y
+Install needed packages: `yum install httpd mod_ssl mod_headers -y`
 
-vi /etc/httpd/conf/httpd.conf
----
+Edit the main configuration file: `vi /etc/httpd/conf/httpd.conf`
+```
 Listen 5002
 
 # Docker
@@ -40,9 +39,8 @@ ProxyPreserveHost On
 
 <VirtualHost *:5002>
   SSLEngine on
-
-  SSLCertificateFile "nexus.pem"
-  SSLCertificateKeyFile "nexus.key"
+  SSLCertificateFile /etc/httpd/nexus.crt
+  SSLCertificateKeyFile /etc/httpd/nexus.key
 
   ServerName nexus.example.com
   ServerAdmin admin@example.com
@@ -56,15 +54,13 @@ ProxyPreserveHost On
   ErrorLog logs/nexus.example.com/nexus/error.log
   CustomLog logs/nexus.example.com/nexus/access.log common
 </VirtualHost>
----
-
-# create logs directories
-mkdir -p /var/log/httpd/nexus.example.com/nexus
 ```
 
-#### 3b. Configure SSL certificates
+Create logs directory: `mkdir -p /var/log/httpd/nexus.example.com/nexus`
 
-Follow the steps to [configure SSL certificates].
+#### 3b. Generate and configure SSL certificates
+
+Follow the steps to [generate SSL certificates].
 ```
 cd /etc/httpd
 keytool -genkeypair -keystore keystore.jks -storepass password -alias nexus \
@@ -76,6 +72,14 @@ keytool -importkeystore -srckeystore keystore.jks -destkeystore nexus.p12 -dests
 openssl pkcs12 -nokeys -in nexus.p12 -out nexus.pem
 openssl pkcs12 -nocerts -nodes -in nexus.p12 -out nexus.key
 
+Edit the SSL configuration file to point to your custom certificates: `vi /etc/httpd/conf.d/ssl.conf'
+```
+SSLCertificateFile /etc/httpd/nexus.crt
+SSLCertificateKeyFile /etc/httpd/nexus.key
+```
+#### 3c. Set up whitelisting
+
+```
 # set SELinux permissions for non-standard port 5002
 yum -y install policycoreutils-python
 semanage port -a -t http_port_t -p tcp 5002
@@ -101,7 +105,7 @@ update-ca-trust
 
 ### 4. Log into Nexus repository
 
-`podman login nexus.example.com:5002 --tls-verify=false`
+`podman login nexus.example.com:5002`
 
 [system requirements]: https://help.sonatype.com/repomanager3/system-requirements
 [install Nexus]: https://help.sonatype.com/repomanager3/installation
@@ -110,5 +114,5 @@ update-ca-trust
 [private Docker repository]: https://blog.sonatype.com/using-nexus-3-as-your-repository-part-3-docker-images
 [this article]: https://support.sonatype.com/hc/en-us/articles/115013153887-Docker-Repository-Configuration-and-Client-Connection
 [configure httpd as a reverse proxy]: https://help.sonatype.com/repomanager3/installation/run-behind-a-reverse-proxy
-[configure ssl certificates]: https://support.sonatype.com/hc/en-us/articles/213465768-SSL-Certificate-Guide
+[generate ssl certificates]: https://support.sonatype.com/hc/en-us/articles/213465768-SSL-Certificate-Guide
 [trust self-signed certificate]: https://docs.docker.com/registry/insecure/#use-self-signed-certificates
