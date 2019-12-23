@@ -7,4 +7,5 @@ This repository contains sample applications using OpenShift resources and expla
 * [cronjob](./cronjob) is a Perl application with a schedule managed by the CronJob resource
 * [docker-nexus3](./docker-nexus3) is an OpenShift deployment of the upstream repository: https://github.com/sonatype/docker-nexus3
 * [httpd](./httpd) is an httpd application built on the rhel7 image which demonstrates a Dockerfile build
+* [nexus](./nexus) is a standalone deployment of Sonatype Nexus Docker Repository with an Apache httpd reverse proxy frontend
 * [rhel7](./rhel7) is a basic pod built on the rhel7 image which demonstrates a Dockerfile build
