@@ -71,6 +71,7 @@ keytool -exportcert -keystore keystore.jks -alias nexus -rfc > nexus.crt
 keytool -importkeystore -srckeystore keystore.jks -destkeystore nexus.p12 -deststoretype PKCS12
 openssl pkcs12 -nokeys -in nexus.p12 -out nexus.pem
 openssl pkcs12 -nocerts -nodes -in nexus.p12 -out nexus.key
+```
 
 Edit the SSL configuration file to point to your custom certificates: `vi /etc/httpd/conf.d/ssl.conf'
 ```
