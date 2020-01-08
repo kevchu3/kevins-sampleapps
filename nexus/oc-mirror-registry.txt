@@ -1,5 +1,0 @@
-# https://docs.openshift.com/container-platform/4.2/installing/installing_restricted_networks/installing-restricted-networks-preparations.html#installation-mirror-repository_installing-restricted-networks-preparations
-oc adm -a pullsecret release mirror --from=quay.io/openshift-release-dev/ocp-release:4.2.10 --to=nexus.example.com:5002/ocp4/openshift4 --to-release-image=nexus.example.com:5002/ocp4/openshift4:4.2.10 --skip-verification=true
-
-# override and ignore ssl certificate errors
-oc adm -a pullsecret release mirror --from=quay.io/openshift-release-dev/ocp-release:4.2.10 --to=nexus.example.com:5002/ocp4/openshift4 --to-release-image=nexus.example.com:5002/ocp4/openshift4:4.2.10 --skip-verification=true --insecure=true
