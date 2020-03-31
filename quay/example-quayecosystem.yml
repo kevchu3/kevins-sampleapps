@@ -1,0 +1,13 @@
+apiVersion: redhatcop.redhat.io/v1alpha1
+kind: QuayEcosystem
+metadata:
+  name: example-quayecosystem
+  namespace: quay-enterprise
+spec:
+  quay:
+    imagePullSecretName: redhat-quay-pull-secret
+    registryStorage:
+      persistentVolumeAccessModes:
+        - ReadWriteOnce
+      persistentVolumeSize: 5Gi
+      persistentVolumeStorageClassName: quay-storageclass
