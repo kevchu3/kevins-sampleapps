@@ -6,3 +6,8 @@ metadata:
 spec:
   quay:
     imagePullSecretName: redhat-quay-pull-secret
+    registryStorage:
+      persistentVolumeAccessModes:
+        - ReadWriteOnce
+      persistentVolumeSize: 5Gi
+      persistentVolumeStorageClassName: local-storageclass
