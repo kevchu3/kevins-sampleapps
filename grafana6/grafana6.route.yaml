@@ -1,0 +1,17 @@
+apiVersion: route.openshift.io/v1                                                                                                                                                                                  
+kind: Route        
+metadata:                                                                                                                                                                                                  [5/1063]
+  labels:                                                                                                                                                                                                          
+    app: grafana6                                                                                                                                                                                                  
+  name: grafana6
+  namespace: openshift-monitoring
+spec:
+  host: grafana6-openshift-monitoring.kechung-lab.redhat.com
+  port:
+    targetPort: 3000-tcp
+  to:
+    kind: Service
+    name: grafana6
+    weight: 100
+  wildcardPolicy: None
+

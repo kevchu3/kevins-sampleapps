@@ -1,0 +1,64 @@
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+  labels:
+    app: grafana6
+  name: grafana6
+  namespace: openshift-monitoring
+spec:
+  replicas: 1
+  selector:
+    app: grafana6
+  strategy:
+    activeDeadlineSeconds: 21600
+    resources: {}
+    rollingParams:
+      intervalSeconds: 1
+      maxSurge: 25%
+      maxUnavailable: 25%
+      timeoutSeconds: 600
+      updatePeriodSeconds: 1
+    type: Rolling
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: grafana6
+      name: grafana6
+    spec:
+      containers:
+        - image: >-
+            docker-registry.default.svc:5000/openshift-monitoring/grafana6@sha256:44e41d00685a13783555fa1e8efc2a5e5e70e1fa16db5523035cbedca8bd7eb7
+          imagePullPolicy: Always
+          name: grafana6
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /var/lib/grafana
+              name: grafana6
+            - mountPath: /etc/grafana
+              name: grafana6
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - name: grafana6
+          persistentVolumeClaim:
+            claimName: grafana6
+  test: false
+  triggers:
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+          - grafana6
+        from:
+          kind: ImageStreamTag
+          name: 'grafana6:latest'
+          namespace: openshift-monitoring
+      type: ImageChange
