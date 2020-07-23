@@ -1,0 +1,18 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  labels:
+    app: custom-build
+  name: custom-build
+spec:
+  output:
+    to:
+      kind: ImageStreamTag
+      name: custom-build:latest
+  postCommit: {}
+  runPolicy: Serial
+  strategy:
+    customStrategy:
+      from:
+        kind: "DockerImage"
+        name: "registry.redhat.io/rhel8/s2i-base"
