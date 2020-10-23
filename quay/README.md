@@ -4,15 +4,24 @@ Refer to this [documentation] for instructions on configuring the Quay Enterpris
 
 ### Sample files included
 
-Create the quay.io pull secret with: `oc create -f redhat-quay-pull-secret`
+Create the quay.io pull secret:
+```
+oc create -f redhat-quay-pull-secret
+```
 
-Create the ephemeral QuayEcosystem with: `oc create -f example-quayecosystem.yaml`
+### Configure SSL certificate
 
-### Optional: Configure persistence
+Create an SSL certificate as follows:
+```
+$ openssl req -newkey rsa:2048 -nodes -keyout quay.key -x509 -days 365 -out quay.crt
+$ oc create secret tls custom-quay-ssl --key=quay.key --cert=quay.crt
+```
 
-Configure persistence for Quay Enterprise via the local storage operator.  I followed these steps to configure the [local storage operator] and have provided a sample LocalVolume that can be created with `oc create -f local-volume.yaml`
+### Deploy QuayEcosystem CR with storage
 
-Then, create the persistent QuayEcosystem with: `oc create -f example-quayecosystem-persistent.yaml`
+Create the QuayEcosystem CR with persistent storage:
+```
+oc create -f example-quayecosystem-persistent.yaml
+```
 
-[documentation]: https://github.com/redhat-cop/quay-operator
-[local storage operator]: https://github.com/kevchu3/openshift4-upi-homelab/tree/master/operator/local-storage
+[documentation]: https://access.redhat.com/documentation/en-us/red_hat_quay/3.3/html/deploy_red_hat_quay_on_openshift_with_quay_operator

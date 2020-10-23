@@ -11,6 +11,16 @@ spec:
     keepConfigDeployment: true
     externalAccess:
       hostname: quay.app.example.com
+      tls:
+        secretName: custom-quay-ssl
+        termination: passthrough
     deploymentStrategy: Recreate
     imagePullSecretName: redhat-pull-secret
     skipSetup: false
+    database:
+      volumeSize: 10Gi
+    registryStorage:
+      persistentVolumeAccessModes:
+        - ReadWriteOnce
+      persistentVolumeSize: 30Gi
+      persistentVolumeStorageClassName: ocs-storagecluster-ceph-rbd
