@@ -18,6 +18,7 @@ spec:
     imagePullSecretName: redhat-pull-secret
     skipSetup: false
     database:
+      storageClass: ocs-storagecluster-cephfs
       volumeSize: 10Gi
     registryStorage:
       persistentVolumeAccessModes:
