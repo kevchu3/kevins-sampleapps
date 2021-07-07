@@ -2,7 +2,7 @@
 
 # Reference link: https://helm.sh/docs/topics/registries/
 
-htpasswd -cB -b /opt/registry/auth.htpasswd admin admin123
+htpasswd -cB -b /opt/registry/auth/htpasswd admin admin123
 
 # Set up TLS for registry
 mkdir -p /opt/registry/certs
